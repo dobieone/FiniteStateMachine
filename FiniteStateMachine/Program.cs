@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MD.AI.Examples.Simple;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,20 +11,28 @@ namespace MD.AI.Example
     {
         static void Main(string[] args)
         {
+            SimpleExample();        
+        }
+
+        private static void SimpleExample()
+        {
             var fsm = new FSM();
 
+            var s = new SimpleExample();
+
             var one = new State();
-            one.OnEnter += StateOneEnter;
-            one.OnTick += StateOneTick;
-            one.OnExit += StateOneExit;
+            one.OnEnter += s.StateOneEnter;
+            one.OnTick += s.StateOneTick;
+            one.OnExit += s.StateOneExit;
 
             var two = new State();
-            two.OnEnter += StateTwoEnter;
-            two.OnTick += StateTwoTick;
-            two.OnExit += StateTwoExit;
+            two.OnEnter += s.StateTwoEnter;
+            two.OnTick += s.StateTwoTick;
+            two.OnExit += s.StateTwoExit;
 
             var three = new State();
-            three.OnTick += StateThreeTick;
+            three.OnEnter += s.StateThreeEnter;
+            three.OnTick += s.StateThreeTick;
 
 
             fsm.AddState("One", one)
@@ -38,46 +47,6 @@ namespace MD.AI.Example
             } while (true);
 
         }
-
-
-        private static void StateOneEnter(FSM fsm)
-        {
-            Console.WriteLine("One - Enter");
-        }
-        private static void StateOneTick(FSM fsm)
-        {
-            Console.WriteLine("One - Tick");
-            fsm.ChangeState("Two");
-        }
-        private static void StateOneExit(FSM fsm)
-        {
-            Console.WriteLine("One - Exit");
-        }
-
-
-
-        private static void StateTwoEnter(FSM fsm)
-        {
-            Console.WriteLine("Two - Enter");
-        }
-        private static void StateTwoTick(FSM fsm)
-        {
-            Console.WriteLine("Two - Tick");
-            fsm.ChangeState("Three");
-        }
-        private static void StateTwoExit(FSM fsm)
-        {
-            Console.WriteLine("Two - Exit");
-        }
-
-        private static void StateThreeTick(FSM fsm)
-        {
-            Console.WriteLine("End...");
-            Console.ReadLine();
-            Environment.Exit(0);
-        }
-
-
 
     }
 }
