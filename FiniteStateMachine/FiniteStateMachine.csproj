@@ -44,7 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blackboard\Blackboard.cs" />
+    <Compile Include="Examples\Complex\States\ChopState.cs" />
+    <Compile Include="Examples\Complex\States\MoveState.cs" />
+    <Compile Include="Examples\Complex\States\RestState.cs" />
+    <Compile Include="Examples\Complex\States\TransportState.cs" />
+    <Compile Include="Examples\Complex\WoodCutter.cs" />
+    <Compile Include="Examples\Complex\WoodCutterExample.cs" />
+    <Compile Include="Examples\Complex\WoodCutterProfile.cs" />
     <Compile Include="Examples\Simple\SimpleExample.cs" />
+    <Compile Include="Examples\Simple\SimpleExampleStates.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachine\FSM.cs" />

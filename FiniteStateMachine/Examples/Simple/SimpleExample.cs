@@ -8,44 +8,39 @@ namespace MD.AI.Examples.Simple
 {
     internal class SimpleExample
     {
-        public void StateOneEnter(FSM fsm)
+        public void Run() 
         {
-            Console.WriteLine("State One - Enter");
-        }
-        public void StateOneTick(FSM fsm)
-        {
-            Console.WriteLine("State One - Tick");
-            fsm.ChangeState("Two");
-        }
-        public void StateOneExit(FSM fsm)
-        {
-            Console.WriteLine("State One - Exit");
-        }
-        public void StateTwoEnter(FSM fsm)
-        {
-            Console.WriteLine();
-            Console.WriteLine("State Two - Enter");
-        }
-        public void StateTwoTick(FSM fsm)
-        {
-            Console.WriteLine("State Two - Tick");
-            fsm.ChangeState("Three");
-        }
-        public void StateTwoExit(FSM fsm)
-        {
-            Console.WriteLine("State Two - Exit");
-        }
-        public void StateThreeEnter(FSM fsm)
-        {
-            Console.WriteLine();
-            Console.WriteLine("State Three - Enter");
-        }
-        public void StateThreeTick(FSM fsm)
-        {
-            Console.WriteLine("State Three - Tick");
-            Console.WriteLine("Exiting...");
-            Console.ReadLine();
-            Environment.Exit(0);
+
+            var fsm = new FSM();
+
+            var s = new SimpleExampleStates();
+
+            var one = new State();
+            one.OnEnter += s.StateOneEnter;
+            one.OnTick += s.StateOneTick;
+            one.OnExit += s.StateOneExit;
+
+            var two = new State();
+            two.OnEnter += s.StateTwoEnter;
+            two.OnTick += s.StateTwoTick;
+            two.OnExit += s.StateTwoExit;
+
+            var three = new State();
+            three.OnEnter += s.StateThreeEnter;
+            three.OnTick += s.StateThreeTick;
+
+
+            fsm.AddState("One", one)
+                .AddState("Two", two)
+                .AddState("Three", three);
+
+            fsm.Start("One");
+
+            do
+            {
+                fsm.Tick();
+            } while (true);
+
         }
 
     }

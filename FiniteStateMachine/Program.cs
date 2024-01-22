@@ -1,4 +1,5 @@
-﻿using MD.AI.Examples.Simple;
+﻿using MD.AI.Examples.Complex;
+using MD.AI.Examples.Simple;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,41 +12,22 @@ namespace MD.AI.Example
     {
         static void Main(string[] args)
         {
-            SimpleExample();        
+            Console.CursorVisible = false;
+
+            //SimpleExample();        
+            ComplexExample();
+        }
+
+        private static void ComplexExample()
+        {
+            var wc = new WoodCutterExample();
+            wc.Run();
         }
 
         private static void SimpleExample()
         {
-            var fsm = new FSM();
-
-            var s = new SimpleExample();
-
-            var one = new State();
-            one.OnEnter += s.StateOneEnter;
-            one.OnTick += s.StateOneTick;
-            one.OnExit += s.StateOneExit;
-
-            var two = new State();
-            two.OnEnter += s.StateTwoEnter;
-            two.OnTick += s.StateTwoTick;
-            two.OnExit += s.StateTwoExit;
-
-            var three = new State();
-            three.OnEnter += s.StateThreeEnter;
-            three.OnTick += s.StateThreeTick;
-
-
-            fsm.AddState("One", one)
-                .AddState("Two", two)
-                .AddState("Three", three);
-
-            fsm.Start("One");
-
-            do
-            {
-                fsm.Tick();
-            } while (true);
-
+            var se = new SimpleExample();
+            se.Run();
         }
 
     }

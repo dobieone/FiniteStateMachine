@@ -12,9 +12,9 @@ namespace MD.AI
         private Dictionary<string, State> _states;
         private State _currentState;
 
-        private Blackboard<int> _blackboard;
+        private Blackboard<string> _blackboard;
 
-        public Blackboard<int> Blackboard
+        public Blackboard<string> Blackboard
         {
             get { return _blackboard; }
             set { _blackboard = value; }
@@ -24,10 +24,10 @@ namespace MD.AI
         public FSM() 
         {
             _states = new Dictionary<string, State>();
-            _blackboard = new Blackboard<int>();
+            _blackboard = new Blackboard<string>();
         }
 
-        public FSM(Blackboard<int> blackboard)
+        public FSM(Blackboard<string> blackboard)
         {
             _states = new Dictionary<string, State>();
             _blackboard = blackboard;
