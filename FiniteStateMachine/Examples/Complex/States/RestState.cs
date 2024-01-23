@@ -8,17 +8,56 @@ namespace MD.AI.Examples.Complex.States
 {
     internal class RestState
     {
+
+        private DateTime _timer;
+        private string _stateName = "Resting";
+        private int _seconds = 0;
+
+        private WoodCutterProfile _profile;
+
+        public WoodCutterProfile Profile
+        {
+            get { return _profile; }
+            set { _profile = value; }
+        }
+
+        public RestState(WoodCutterProfile profile)
+        {
+            _profile = profile;
+        }
+
         public void Enter(FSM fsm)
         {
-            Console.WriteLine("Rest - Enter");
+            _seconds = 0;
+            SetTimer(1);
+            _profile.State = _stateName;
         }
         public void Tick(FSM fsm)
         {
-            Console.WriteLine("Rest - Tick");
+            if (DateTime.Now >= _timer)
+            {
+                _profile.Energy += _profile.RecoveryAmount;
+                _seconds++;
+                SetTimer(1);
+            }
+            if (_seconds >= 2)
+            {
+                int.TryParse(fsm.Blackboard["Logs"].ToString(), out int l);
+                l--;
+                fsm.Blackboard["Logs"] = l;
+
+                _seconds = 0;
+            }
+            if (_profile.Energy >= 100)
+            {
+                fsm.ChangeState("Move");
+            }
         }
-        public void Exit(FSM fsm)
+
+        private void SetTimer(int duration)
         {
-            Console.WriteLine("Rest - Exit");
+            var dt = DateTime.Now;
+            _timer = dt.AddSeconds((double)duration);
         }
     }
 }

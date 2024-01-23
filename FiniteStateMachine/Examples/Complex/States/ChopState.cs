@@ -24,7 +24,7 @@ namespace MD.AI.Examples.Complex.States
         public ChopState(WoodCutterProfile profile)
         {
             _profile = profile;
-            _duration = profile.CuttingSpeed;
+            _duration = profile.ChoppingSpeed;
         }
 
         public void Enter(FSM fsm)
@@ -38,8 +38,9 @@ namespace MD.AI.Examples.Complex.States
             if (DateTime.Now >= _timer)
             {
                 _profile.Carrying++;
-                _profile.Energy -= _profile.EnergyCost;
-                if (_profile.Carrying >= 2)
+                _profile.Chopped++;
+                _profile.Energy -= _profile.ChoppingEnergyCost;
+                if (_profile.Carrying >= _profile.MaxCarryAmount)
                 {
                     fsm.ChangeState("Transport");
                 }

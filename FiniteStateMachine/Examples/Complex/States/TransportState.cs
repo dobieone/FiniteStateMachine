@@ -9,8 +9,8 @@ namespace MD.AI.Examples.Complex.States
     internal class TransportState
     {
         private DateTime _timer;
-        private int _duration = 5;
         private string _stateName = "Transporting";
+        private int _seconds = 0;
 
         private WoodCutterProfile _profile;
 
@@ -20,26 +20,48 @@ namespace MD.AI.Examples.Complex.States
             set { _profile = value; }
         }
 
-
         public TransportState(WoodCutterProfile profile)
         {
             _profile = profile;
-            _duration = profile.CuttingSpeed;
         }
 
         public void Enter(FSM fsm)
         {
-            //SetTimer(_duration);
+            _seconds = 0;
+            SetTimer(1);
             _profile.State = _stateName;
-            //_profile.Carrying = 0;
         }
         public void Tick(FSM fsm)
         {
-            //Console.WriteLine("Transport - Tick");
+            if (DateTime.Now >= _timer)
+            {
+                _seconds++;
+                _profile.Energy -= _profile.TransportEnergy;
+                SetTimer(1);
+            }
+            if (_seconds >= _profile.TransportSpeed)
+            {
+                int.TryParse(fsm.Blackboard["Logs"].ToString(), out int l);
+                l += _profile.Carrying;
+                fsm.Blackboard["Logs"] = l;
+
+                _profile.Carrying = 0;
+
+                if (_profile.Energy <= 10)
+                {
+                    fsm.ChangeState("Rest");
+                }
+                else
+                {
+                    fsm.ChangeState("Move");
+                }
+            }
         }
-        public void Exit(FSM fsm)
+
+        private void SetTimer(int duration)
         {
-            //Console.WriteLine("Transport - Exit");
+            var dt = DateTime.Now;
+            _timer = dt.AddSeconds((double)duration);
         }
     }
 }

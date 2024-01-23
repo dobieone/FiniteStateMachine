@@ -8,11 +8,11 @@ namespace MD.AI.Examples.Complex
 {
     internal class WoodCutterExample
     {
-        private Blackboard<string> _blackboard;
+        private Blackboard<object> _blackboard;
         private List<WoodCutter> _woodCutters;
         public WoodCutterExample()
         {
-            _blackboard = new Blackboard<string>
+            _blackboard = new Blackboard<object>
             {
                 { "Logs", "0" }
             };
@@ -24,8 +24,14 @@ namespace MD.AI.Examples.Complex
                     Name = "Normal Worker",
                     State = "",
                     Energy = 100,
-                    CuttingSpeed = 3,
-                    EnergyCost = 2,
+                    ChoppingSpeed = 3,
+                    ChoppingEnergyCost = 2,
+                    MaxCarryAmount = 3,
+                    TransportEnergy = 3,
+                    TransportSpeed = 2,
+                    MovementEnergy = 2,
+                    MovementSpeed = 1,
+                    RecoveryAmount = 8
                 });
 
             var slow = new WoodCutter(
@@ -35,15 +41,39 @@ namespace MD.AI.Examples.Complex
                     Name = "Lazy Worker",
                     State = "",
                     Energy = 100,
-                    CuttingSpeed = 5,
-                    EnergyCost = 4,
+                    ChoppingSpeed = 5,
+                    ChoppingEnergyCost = 4,
+                    MaxCarryAmount = 1,
+                    TransportEnergy = 4,
+                    TransportSpeed = 3,
+                    MovementEnergy = 3,
+                    MovementSpeed = 2,
+                    RecoveryAmount = 5,
+                });
+
+            var fast = new WoodCutter(
+                _blackboard,
+                new WoodCutterProfile()
+                {
+                    Name = "Fast Worker",
+                    State = "",
+                    Energy = 100,
+                    ChoppingSpeed = 2,
+                    ChoppingEnergyCost = 3,
+                    MaxCarryAmount = 2,
+                    TransportEnergy = 5,
+                    TransportSpeed = 2,
+                    MovementEnergy = 2,
+                    MovementSpeed = 2,
+                    RecoveryAmount = 3,
                 });
 
 
             _woodCutters = new List<WoodCutter>
             {
                 normal,
-                slow
+                slow,
+                fast
             };
         }
 
@@ -57,7 +87,7 @@ namespace MD.AI.Examples.Complex
                 }
 
                 Console.SetCursorPosition(0, 0);
-                Console.WriteLine(_blackboard.ToString());
+                Console.WriteLine($"Logs Stock: {_blackboard["Logs"].ToString()}      \n");
                 
                 foreach (var wc in _woodCutters)
                 {

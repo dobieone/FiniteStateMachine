@@ -8,17 +8,48 @@ namespace MD.AI.Examples.Complex.States
 {
     internal class MoveState
     {
+        private DateTime _timer;
+        private string _stateName = "Moveing";
+        private int _seconds = 0;
+
+        private WoodCutterProfile _profile;
+
+        public WoodCutterProfile Profile
+        {
+            get { return _profile; }
+            set { _profile = value; }
+        }
+
+
+        public MoveState(WoodCutterProfile profile)
+        {
+            _profile = profile;
+        }
         public void Enter(FSM fsm)
         {
-            Console.WriteLine("Move - Enter");
+            _seconds = 0;
+            SetTimer(1);
+            _profile.State = _stateName;
         }
         public void Tick(FSM fsm)
         {
-            Console.WriteLine("Move - Tick");
+            if (DateTime.Now >= _timer)
+            {
+                _seconds++;
+                _profile.Energy -= _profile.MovementEnergy;
+                SetTimer(1);
+            }
+            if (_seconds >= _profile.MovementSpeed)
+            {
+                fsm.ChangeState("Chop");
+            }
         }
-        public void Exit(FSM fsm)
+
+
+        private void SetTimer(int duration)
         {
-            Console.WriteLine("Move - Exit");
+            var dt = DateTime.Now;
+            _timer = dt.AddSeconds((double)duration);
         }
     }
 }

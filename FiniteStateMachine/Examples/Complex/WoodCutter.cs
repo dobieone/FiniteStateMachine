@@ -19,7 +19,7 @@ namespace MD.AI.Examples.Complex
             set { _profile = value; }
         }
 
-        public WoodCutter(Blackboard<string> blackboard, WoodCutterProfile profile)
+        public WoodCutter(Blackboard<object> blackboard, WoodCutterProfile profile)
         {
             _fsm = new FSM(blackboard);
             _profile = profile;
@@ -34,8 +34,20 @@ namespace MD.AI.Examples.Complex
             t.OnEnter += ts.Enter;
             t.OnTick += ts.Tick;
 
+            var ms = new MoveState(_profile);
+            var m = new State();
+            m.OnEnter += ms.Enter;
+            m.OnTick += ms.Tick;
+
+            var rs = new RestState(_profile);
+            var r = new State();
+            r.OnEnter += rs.Enter;
+            r.OnTick += rs.Tick;
+
             _fsm.AddState("Chop", c);
             _fsm.AddState("Transport", t);
+            _fsm.AddState("Move", m);
+            _fsm.AddState("Rest", r);
             _fsm.Start("Chop");
         }
 
