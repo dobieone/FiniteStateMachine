@@ -9,7 +9,7 @@ namespace MD.AI.Examples.Complex.States
     internal class MoveState
     {
         private DateTime _timer;
-        private string _stateName = "Moveing";
+        private string _stateName = "Moving";
         private int _seconds = 0;
 
         private WoodCutterProfile _profile;
