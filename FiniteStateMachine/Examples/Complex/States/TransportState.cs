@@ -41,10 +41,7 @@ namespace MD.AI.Examples.Complex.States
             }
             if (_seconds >= _profile.TransportSpeed)
             {
-                int.TryParse(fsm.Blackboard["Logs"].ToString(), out int l);
-                l += _profile.Carrying;
-                fsm.Blackboard["Logs"] = l;
-
+                fsm.Blackboard["Logs"] += _profile.Carrying;
                 _profile.Carrying = 0;
 
                 if (_profile.Energy <= 10)

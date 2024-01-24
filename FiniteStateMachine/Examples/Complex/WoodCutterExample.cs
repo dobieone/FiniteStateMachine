@@ -8,13 +8,13 @@ namespace MD.AI.Examples.Complex
 {
     internal class WoodCutterExample
     {
-        private Blackboard<object> _blackboard;
+        private Blackboard<int> _blackboard;
         private List<WoodCutter> _woodCutters;
         public WoodCutterExample()
         {
-            _blackboard = new Blackboard<object>
+            _blackboard = new Blackboard<int>
             {
-                { "Logs", "0" }
+                { "Logs", 0 }
             };
 
             var normal = new WoodCutter(

@@ -42,10 +42,7 @@ namespace MD.AI.Examples.Complex.States
             }
             if (_seconds >= 2)
             {
-                int.TryParse(fsm.Blackboard["Logs"].ToString(), out int l);
-                l--;
-                fsm.Blackboard["Logs"] = l;
-
+                fsm.Blackboard["Logs"]--;
                 _seconds = 0;
             }
             if (_profile.Energy >= 100)

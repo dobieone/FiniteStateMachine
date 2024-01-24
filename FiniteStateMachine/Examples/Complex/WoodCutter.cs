@@ -19,7 +19,7 @@ namespace MD.AI.Examples.Complex
             set { _profile = value; }
         }
 
-        public WoodCutter(Blackboard<object> blackboard, WoodCutterProfile profile)
+        public WoodCutter(Blackboard<int> blackboard, WoodCutterProfile profile)
         {
             _fsm = new FSM(blackboard);
             _profile = profile;
